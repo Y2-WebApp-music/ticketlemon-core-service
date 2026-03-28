@@ -10,4 +10,54 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["core_service"]
+}
+
+model Event {
+  id              String      @id @default(uuid())
+  name            String
+  org_name        String
+  description     Json?
+  category        String
+  location        String
+  event_start     DateTime
+  event_end       DateTime
+  sale_start      DateTime
+  sale_end        DateTime
+  ticket_type     Json[]
+  status          EventStatus
+  poster_url      String
+  thumbnail_url   String?
+  age_restriction Int
+  tickets         Ticket[]
+  created_at      DateTime?   @default(now())
+  updated_at      DateTime?   @updatedAt
+
+  @@schema("core_service")
+}
+
+model Ticket {
+  id         String    @id @default(uuid())
+  event_id   String
+  user_id    String
+  type       String
+  price      Float
+  qr_code    String
+  event      Event     @relation(fields: [event_id], references: [id])
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  @@schema("core_service")
+}
+
+enum EventStatus {
+  Scheduled
+  OnSale
+  SoldOut
+  Draft
+  Show
+  EventEnd
+  Cancel
+
+  @@schema("core_service")
 }
