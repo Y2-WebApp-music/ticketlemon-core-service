@@ -1,6 +1,6 @@
 import { t } from "elysia";
 
-enum eventStatus {
+export enum eventStatus {
   Scheduled = "Scheduled",
   OnSale = "OnSale",
   SoldOut = "SoldOut",
