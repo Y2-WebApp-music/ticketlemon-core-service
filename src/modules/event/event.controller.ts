@@ -54,7 +54,7 @@ export const eventController = new Elysia({ prefix: "/event" })
           { message: "Event not found" }
         );
       }
-      
+
       const updatedEvent = await service.update(id, body);
       return status(HttpStatus.OK, {
         message: "Event updated successfully",
