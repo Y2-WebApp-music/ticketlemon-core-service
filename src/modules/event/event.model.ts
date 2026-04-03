@@ -1,5 +1,15 @@
 import { t } from "elysia";
 
+enum eventStatus {
+  Scheduled = "Scheduled",
+  OnSale = "OnSale",
+  SoldOut = "SoldOut",
+  Draft = "Draft",
+  Show = "Show",
+  EventEnd = "EventEnd",
+  Cancel = "Cancel"
+}
+
 export const EventSchema = t.Object({
   id: t.String(),
   name: t.String(),
@@ -12,7 +22,8 @@ export const EventSchema = t.Object({
   sale_start: t.Date(),
   sale_end: t.Date(),
   ticket_type: t.Optional(t.Array(t.Any())),
-  status: t.String()
+  status: t.Enum(eventStatus),
+  poster_url: t.String(),
+  age_restriction: t.Number()
 });
-
-export type Event = typeof EventSchema.static;
+export type EventSchema = typeof EventSchema.static;
