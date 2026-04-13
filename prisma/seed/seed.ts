@@ -1,8 +1,10 @@
 import { prisma } from "../../src/lib/db";
 import { eventSeed } from "./event";
+import { ticketSeed } from "./ticket";
 
 export async function main() {
   await eventSeed();
+  await ticketSeed();
 }
 
 try {

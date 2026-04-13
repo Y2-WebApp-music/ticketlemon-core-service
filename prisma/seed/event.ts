@@ -1,11 +1,10 @@
-import { randomUUIDv7 } from "bun";
 import { prisma } from "../../src/lib/db";
 import { EventSchema, eventStatus } from "../../src/modules/event/event.model";
 
 export const eventSeed = async () => {
-  const events: EventSchema[] = [
+  const events: (EventSchema & { id: string })[] = [
     {
-      id: randomUUIDv7(),
+      id: "evt_001",
       name: "Bangkok Music Festival 2026",
       org_name: "Live Nation Thailand",
       description: "A large-scale outdoor music festival featuring international artists.",
@@ -16,15 +15,15 @@ export const eventSeed = async () => {
       sale_start: new Date("2026-04-01T00:00:00Z"),
       sale_end: new Date("2026-06-09T23:59:00Z"),
       ticket_type: [
-        { name: "VIP", price: 5000 },
-        { name: "General", price: 2500 }
+        { name: "VIP", price: 5000, quantity: 200 },
+        { name: "General", price: 2500, quantity: 1000 }
       ],
       status: eventStatus.OnSale,
       poster_url: "https://picsum.photos/200/300",
       age_restriction: 18
     },
     {
-      id: randomUUIDv7(),
+      id: "evt_002",
       name: "Tech Conference Thailand 2026",
       org_name: "TechHub Asia",
       description: "Annual tech conference focusing on cloud and AI.",
@@ -35,15 +34,15 @@ export const eventSeed = async () => {
       sale_start: new Date("2026-05-01T00:00:00Z"),
       sale_end: new Date("2026-08-14T23:59:00Z"),
       ticket_type: [
-        { name: "Early Bird", price: 3000 },
-        { name: "Regular", price: 5000 }
+        { name: "Early Bird", price: 3000, quantity: 150 },
+        { name: "Regular", price: 5000, quantity: 500 }
       ],
       status: eventStatus.Scheduled,
       poster_url: "https://picsum.photos/200/300",
       age_restriction: 0
     },
     {
-      id: randomUUIDv7(),
+      id: "evt_003",
       name: "Stand-up Comedy Night",
       org_name: "Bangkok Comedy Club",
       description: "A night of laughs with top comedians.",
@@ -54,14 +53,14 @@ export const eventSeed = async () => {
       sale_start: new Date("2026-03-15T00:00:00Z"),
       sale_end: new Date("2026-05-19T23:59:00Z"),
       ticket_type: [
-        { name: "Standard", price: 800 }
+        { name: "Standard", price: 800, quantity: 300 }
       ],
       status: eventStatus.SoldOut,
       poster_url: "https://picsum.photos/200/300",
       age_restriction: 16
     },
     {
-      id: randomUUIDv7(),
+      id: "evt_004",
       name: "Art Exhibition: Modern Bangkok",
       org_name: "BACC",
       description: "Contemporary art exhibition by local artists.",
@@ -71,13 +70,15 @@ export const eventSeed = async () => {
       event_end: new Date("2026-05-10T18:00:00Z"),
       sale_start: new Date("2026-03-20T00:00:00Z"),
       sale_end: new Date("2026-05-09T23:59:00Z"),
-      ticket_type: [],
+      ticket_type: [
+        { name: "General", price: 0, quantity: 500 }
+      ],
       status: eventStatus.Show,
       poster_url: "https://picsum.photos/200/300",
       age_restriction: 0
     },
     {
-      id: randomUUIDv7(),
+      id: "evt_005",
       name: "Startup Pitch Day",
       org_name: "Startup Thailand",
       description: "Pitch your startup to top investors.",
@@ -88,7 +89,7 @@ export const eventSeed = async () => {
       sale_start: new Date("2026-05-10T00:00:00Z"),
       sale_end: new Date("2026-06-30T23:59:00Z"),
       ticket_type: [
-        { name: "Attendee", price: 1500 }
+        { name: "Attendee", price: 1500, quantity: 100 }
       ],
       status: eventStatus.Draft,
       poster_url: "https://picsum.photos/200/300",

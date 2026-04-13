@@ -3,8 +3,11 @@ import { prisma } from "../../src/lib/db";
 async function main() {
   console.log("Cleaning up database...");
 
-  const { count } = await prisma.event.deleteMany();
-  console.log(`Deleted ${count} rows.`);
+  const { count: ticketCount } = await prisma.ticket.deleteMany();
+  console.log(`Deleted ${ticketCount} rows.`);
+
+  const { count: eventCount } = await prisma.event.deleteMany();
+  console.log(`Deleted ${eventCount} rows.`);
 }
 
 try {

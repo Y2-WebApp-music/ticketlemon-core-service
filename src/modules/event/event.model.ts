@@ -11,7 +11,6 @@ export enum eventStatus {
 }
 
 export const EventSchema = t.Object({
-  id: t.String(),
   name: t.String(),
   org_name: t.String(),
   description: t.Optional(t.Any()),
