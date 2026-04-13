@@ -1,28 +1,28 @@
 import { Elysia } from "elysia";
-import { EventService } from "./event.service";
-import { EventSchema } from "./event.model";
+import { TicketService } from "./ticket.service";
+import { TicketSchema } from "./ticket.model";
 import { HttpStatus } from "../../types/http";
 
-const service = new EventService();
+const service = new TicketService();
 
-export const eventController = new Elysia({ prefix: "/event" })
+export const ticketController = new Elysia({ prefix: "/ticket" })
   .post("/", async ({ body, status }) => {
     try {
-      const event = await service.create(body);
+      const ticket = await service.create(body);
       return status(HttpStatus.CREATED, {
-        message: "Event created successfully",
-        event
+        message: "Ticket created successfully",
+        ticket
       });
     } catch (error) {
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }, { body: EventSchema })
+  }, { body: TicketSchema })
 
   .get("/", async ({ status }) => {
     try {
-      const events = await service.getAll();
-      return status(HttpStatus.OK, events);
+      const tickets = await service.getAll();
+      return status(HttpStatus.OK, tickets);
     } catch (error) {
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -31,14 +31,14 @@ export const eventController = new Elysia({ prefix: "/event" })
 
   .get("/:id", async ({ params: { id }, status }) => {
     try {
-      const event = await service.getById(id);
-      if (!event) {
+      const ticket = await service.getById(id);
+      if (!ticket) {
         return status(
           HttpStatus.NOT_FOUND,
-          { message: "Event not found" }
+          { message: "Ticket not found" }
         );
       }
-      return status(HttpStatus.OK, event);
+      return status(HttpStatus.OK, ticket);
     } catch (error) {
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,37 +47,39 @@ export const eventController = new Elysia({ prefix: "/event" })
 
   .put("/:id", async ({ params: { id }, body, status }) => {
     try {
-      const event = await service.getById(id);
-      if (!event) {
+      const ticket = await service.getById(id);
+      if (!ticket) {
         return status(
           HttpStatus.NOT_FOUND,
-          { message: "Event not found" }
+          { message: "Ticket not found" }
         );
       }
 
-      const updatedEvent = await service.update(id, body);
+      const updatedTicket = await service.update(id, body);
       return status(HttpStatus.OK, {
-        message: "Event updated successfully",
-        event: updatedEvent
+        message: "Ticket updated successfully",
+        ticket: updatedTicket
       });
     } catch (error) {
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }, { body: EventSchema })
+  }, { body: TicketSchema })
 
   .delete("/:id", async ({ params: { id }, status }) => {
     try {
-      const event = await service.getById(id);
-      if (!event) {
+      const ticket = await service.getById(id);
+      if (!ticket) {
         return status(
           HttpStatus.NOT_FOUND,
-          { message: "Event not found" }
+          { message: "Ticket not found" }
         );
       }
 
       await service.delete(id);
-      return status(HttpStatus.OK, { message: "Event deleted successfully" });
+      return status(HttpStatus.OK, {
+        message: "Ticket deleted successfully"
+      });
     } catch (error) {
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);

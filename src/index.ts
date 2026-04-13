@@ -1,11 +1,13 @@
 import { Elysia } from "elysia";
 import { eventController } from "./modules/event/event.controller";
+import { ticketController } from "./modules/ticket/ticket.controller";
 
 const port = Number(process.env.PORT) || 8003;
 
 const app = new Elysia()
   .get("/", () => "Hello Elysia")
   .use(eventController)
+  .use(ticketController)
   .listen(port);
 
 console.log(
