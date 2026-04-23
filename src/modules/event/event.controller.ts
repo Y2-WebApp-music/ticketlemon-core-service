@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import { EventService } from "./event.service";
 import { EventSchema } from "./event.model";
 import { HttpStatus } from "../../types/http";
-import { uploadFile } from "../../utils/fileManager";
+import { uploadFile, deleteFile } from "../../utils/fileManager";
 
 const service = new EventService();
 
@@ -72,8 +72,14 @@ export const eventController = new Elysia({ prefix: "/event" })
       const { poster_url: posterFile, thumbnail_url: thumbnailFile, ...rest } = body;
       let poster_url: string | undefined;
       let thumbnail_url: string | undefined;
-      if (posterFile) poster_url = await uploadFile(posterFile);
-      if (thumbnailFile) thumbnail_url = await uploadFile(thumbnailFile);
+      if (posterFile) {
+        if (event.poster_url) await deleteFile(event.poster_url);
+        poster_url = await uploadFile(posterFile);
+      }
+      if (thumbnailFile) {
+        if (event.thumbnail_url) await deleteFile(event.thumbnail_url);
+        thumbnail_url = await uploadFile(thumbnailFile);
+      }
 
       const payload = {
         ...rest,
@@ -102,6 +108,8 @@ export const eventController = new Elysia({ prefix: "/event" })
         );
       }
 
+      if (event.poster_url) await deleteFile(event.poster_url);
+      if (event.thumbnail_url) await deleteFile(event.thumbnail_url);
       await service.delete(id);
       return status(HttpStatus.OK, { message: "Event deleted successfully" });
     } catch (error) {
