@@ -23,6 +23,6 @@ export class EventService {
   }
 
   async findStaffCode(code: string) {
-    return prisma.event.findFirst({ where: { staff_code: code } });
+    return prisma.event.findUnique({ where: { staff_code: code } });
   }
 }
