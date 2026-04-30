@@ -21,4 +21,8 @@ export class EventService {
   async getById(id: string) {
     return prisma.event.findUnique({ where: { id } });
   }
+
+  async findStaffCode(code: string) {
+    return prisma.event.findFirst({ where: { staff_code: code } });
+  }
 }

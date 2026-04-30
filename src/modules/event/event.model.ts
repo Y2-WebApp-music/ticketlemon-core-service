@@ -24,7 +24,8 @@ export const EventSchema = t.Object({
   status: t.Enum(eventStatus),
   poster_url: t.Any(),
   thumbnail_url: t.Optional(t.Any()),
-  age_restriction: t.Numeric()
+  age_restriction: t.Numeric(),
+  staff_code: t.Optional(t.String())
 });
 export type EventSchema = typeof EventSchema.static;
 

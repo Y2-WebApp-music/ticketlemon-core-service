@@ -3,6 +3,7 @@ import { EventService } from "./event.service";
 import { EventSchema } from "./event.model";
 import { HttpStatus } from "../../types/http";
 import { uploadFile, deleteFile } from "../../utils/fileManager";
+import { generateStaffCode } from "../../utils/generateCode";
 
 const service = new EventService();
 
@@ -117,3 +118,48 @@ export const eventController = new Elysia({ prefix: "/event" })
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   })
+
+  .patch("/:id/generate-staff-code", async ({ params: { id }, status }) => {
+    try {
+      const event = await service.getById(id);
+      if (!event) {
+        return status(
+          HttpStatus.NOT_FOUND,
+          { message: "Event not found" }
+        );
+      } else if (event.staff_code) {
+        return status(
+          HttpStatus.BAD_REQUEST,
+          { message: "Staff code already exists for this event" }
+        );
+      }
+
+      const staffCode = await generateStaffCode(6);
+      await service.update(id, { staff_code: staffCode });
+      return status(HttpStatus.OK, {
+        message: "Staff code generated successfully",
+        staffCode
+      });
+    } catch (error) {
+      console.error(error);
+      return status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  })
+
+  .post("/staff-signin", async ({ body, status }) => {
+    try {
+      const { staff_code } = body;   
+      const event = await service.findStaffCode(staff_code as string);
+      if (!event) {
+        return status(
+          HttpStatus.UNAUTHORIZED,
+          { message: "Invalid staff code" }
+        );
+      }
+
+      return status(HttpStatus.OK, { message: "Staff signed in successfully" });
+    } catch (error) {
+      console.error(error);
+      return status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }, { body: t.Partial(EventSchema) });

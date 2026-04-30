@@ -30,6 +30,7 @@ model Event {
   thumbnail_url   String?
   age_restriction Int
   tickets         Ticket[]
+  staff_code      String?     @unique
   created_at      DateTime?   @default(now())
   updated_at      DateTime?   @updatedAt
 
