@@ -26,7 +26,7 @@ model Event {
   sale_end        DateTime
   ticket_type     Json[]
   status          EventStatus
-  poster_url      String
+  poster_url      String?
   thumbnail_url   String?
   age_restriction Int
   tickets         Ticket[]
@@ -38,15 +38,16 @@ model Event {
 }
 
 model Ticket {
-  id         String    @id @default(uuid())
+  id         String       @id @default(uuid())
   event_id   String
   user_id    String
   type       String
   price      Float
   qr_code    String
-  event      Event     @relation(fields: [event_id], references: [id])
-  created_at DateTime? @default(now())
-  updated_at DateTime? @updatedAt
+  event      Event        @relation(fields: [event_id], references: [id])
+  status     TicketStatus @default(Pending)
+  created_at DateTime?    @default(now())
+  updated_at DateTime?    @updatedAt
 
   @@schema("core_service")
 }
@@ -59,6 +60,14 @@ enum EventStatus {
   Show
   EventEnd
   Cancel
+
+  @@schema("core_service")
+}
+
+enum TicketStatus {
+  Pending
+  Purchased
+  Cancelled
 
   @@schema("core_service")
 }

@@ -22,14 +22,9 @@ export const EventSchema = t.Object({
   sale_end: t.Date(),
   ticket_type: t.Optional(t.Array(t.Any())),
   status: t.Enum(eventStatus),
-  poster_url: t.Any(),
+  poster_url: t.Optional(t.Any()),
   thumbnail_url: t.Optional(t.Any()),
   age_restriction: t.Numeric(),
   staff_code: t.Optional(t.String())
 });
 export type EventSchema = typeof EventSchema.static;
-
-export type EventCreateInput = Omit<EventSchema, 'poster_url' | 'thumbnail_url'> & {
-  poster_url: string;
-  thumbnail_url?: string;
-};

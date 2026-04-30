@@ -1,5 +1,5 @@
 import { prisma } from "../../src/lib/db";
-import { TicketSchema } from "../../src/modules/ticket/ticket.model";
+import { TicketSchema, ticketStatus } from "../../src/modules/ticket/ticket.model";
 
 export const ticketSeed = async () => {
   const tickets: (TicketSchema & { id: string })[] = [
@@ -10,7 +10,8 @@ export const ticketSeed = async () => {
       user_id: "user_001",
       type: "VIP",
       price: 5000,
-      qr_code: "QR001-MUSIC-VIP-001"
+      qr_code: "QR001-MUSIC-VIP-001",
+      status: ticketStatus.Pending
     },
     {
       id: "tkt_001_002",
@@ -18,7 +19,8 @@ export const ticketSeed = async () => {
       user_id: "user_002",
       type: "General",
       price: 2500,
-      qr_code: "QR001-MUSIC-GEN-001"
+      qr_code: "QR001-MUSIC-GEN-001",
+      status: ticketStatus.Pending
     },
     {
       id: "tkt_001_003",
@@ -26,7 +28,8 @@ export const ticketSeed = async () => {
       user_id: "user_003",
       type: "General",
       price: 2500,
-      qr_code: "QR001-MUSIC-GEN-002"
+      qr_code: "QR001-MUSIC-GEN-002",
+      status: ticketStatus.Purchased
     },
     // Tech Conference tickets
     {
@@ -35,7 +38,8 @@ export const ticketSeed = async () => {
       user_id: "user_001",
       type: "Early Bird",
       price: 3000,
-      qr_code: "QR002-TECH-EB-001"
+      qr_code: "QR002-TECH-EB-001",
+      status: ticketStatus.Pending
     },
     {
       id: "tkt_002_002",
@@ -43,7 +47,8 @@ export const ticketSeed = async () => {
       user_id: "user_004",
       type: "Regular",
       price: 5000,
-      qr_code: "QR002-TECH-REG-001"
+      qr_code: "QR002-TECH-REG-001",
+      status: ticketStatus.Pending
     },
     // Stand-up Comedy tickets
     {
@@ -52,7 +57,8 @@ export const ticketSeed = async () => {
       user_id: "user_002",
       type: "Standard",
       price: 800,
-      qr_code: "QR003-COMEDY-STD-001"
+      qr_code: "QR003-COMEDY-STD-001",
+      status: ticketStatus.Pending
     },
     {
       id: "tkt_003_002",
@@ -60,7 +66,8 @@ export const ticketSeed = async () => {
       user_id: "user_005",
       type: "Standard",
       price: 800,
-      qr_code: "QR003-COMEDY-STD-002"
+      qr_code: "QR003-COMEDY-STD-002",
+      status: ticketStatus.Pending
     },
     // Art Exhibition tickets
     {
@@ -69,7 +76,8 @@ export const ticketSeed = async () => {
       user_id: "user_001",
       type: "General",
       price: 0,
-      qr_code: "QR004-ART-GEN-001"
+      qr_code: "QR004-ART-GEN-001",
+      status: ticketStatus.Purchased
     },
     {
       id: "tkt_004_002",
@@ -77,7 +85,8 @@ export const ticketSeed = async () => {
       user_id: "user_004",
       type: "General",
       price: 0,
-      qr_code: "QR004-ART-GEN-002"
+      qr_code: "QR004-ART-GEN-002",
+      status: ticketStatus.Purchased
     },
     // Startup Pitch Day tickets
     {
@@ -86,7 +95,8 @@ export const ticketSeed = async () => {
       user_id: "user_003",
       type: "Attendee",
       price: 1500,
-      qr_code: "QR005-STARTUP-ATT-001"
+      qr_code: "QR005-STARTUP-ATT-001",
+      status: ticketStatus.Purchased
     }
   ];
 
