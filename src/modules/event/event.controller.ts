@@ -59,7 +59,7 @@ export const eventController = new Elysia({ prefix: "/event" })
     }
   })
 
-  .put("/:id", async ({ params: { id }, body, status }) => {
+  .patch("/:id", async ({ params: { id }, body, status }) => {
     try {
       const event = await service.getById(id);
       if (!event) {

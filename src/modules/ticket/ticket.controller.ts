@@ -45,7 +45,7 @@ export const ticketController = new Elysia({ prefix: "/ticket" })
     }
   })
 
-  .put("/:id", async ({ params: { id }, body, status }) => {
+  .patch("/:id", async ({ params: { id }, body, status }) => {
     try {
       const ticket = await service.getById(id);
       if (!ticket) {
