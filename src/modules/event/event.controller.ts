@@ -162,4 +162,21 @@ export const eventController = new Elysia({ prefix: "/event" })
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }, { body: t.Partial(EventSchema) });
+  }, { body: t.Partial(EventSchema) })
+
+  .get("/search", async ({ query: { keyword }, status }) => {
+    try {
+      if (!keyword) {
+        return status(
+          HttpStatus.BAD_REQUEST,
+          { message: "Keyword query parameter is required" }
+        );
+      }
+
+      const events = await service.searchEvents(keyword);
+      return status(HttpStatus.OK, events);
+    } catch (error) {
+      console.error(error);
+      return status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  })

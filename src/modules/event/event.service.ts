@@ -25,4 +25,15 @@ export class EventService {
   async findStaffCode(code: string) {
     return prisma.event.findUnique({ where: { staff_code: code } });
   }
+
+  async searchEvents(keyword: string) {
+    return prisma.event.findMany({
+      where: {
+        OR: [
+          { name: { contains: keyword, mode: "insensitive" } },
+          { location: { contains: keyword, mode: "insensitive" } },
+        ]
+      }
+    });
+  }
 }
