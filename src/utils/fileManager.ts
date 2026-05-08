@@ -5,9 +5,14 @@ const bucketName = process.env.BUCKET_NAME || "ticketlemon-storage";
 export async function uploadFile(file: File) {
   const fileName = `${Date.now()}-${file.name}`;
 
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
   const { error } = await supabase.storage
     .from(bucketName)
-    .upload(fileName, file);
+    .upload(fileName, buffer, {
+      contentType: file.type,
+    });
 
   if (error) {
     throw new Error(error.message);
