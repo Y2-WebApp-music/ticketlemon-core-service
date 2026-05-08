@@ -44,7 +44,7 @@ model Ticket {
   type       String
   price      Float
   qr_code    String
-  event      Event        @relation(fields: [event_id], references: [id])
+  event      Event        @relation(fields: [event_id], references: [id], onDelete: Cascade)
   status     TicketStatus @default(Pending)
   created_at DateTime?    @default(now())
   updated_at DateTime?    @updatedAt
