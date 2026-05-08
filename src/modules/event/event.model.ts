@@ -28,3 +28,25 @@ export const EventSchema = t.Object({
   staff_code: t.Optional(t.String())
 });
 export type EventSchema = typeof EventSchema.static;
+
+
+
+export const normalizeEventBody = (body: any) => {
+  return {
+    ...body,
+
+    age_restriction: body.age_restriction
+      ? Number(body.age_restriction)
+      : undefined,
+
+    ticket_type:
+      typeof body.ticket_type === "string"
+        ? JSON.parse(body.ticket_type)
+        : body.ticket_type,
+
+    description:
+      typeof body.description === "string"
+        ? JSON.parse(body.description)
+        : body.description,
+  };
+};
