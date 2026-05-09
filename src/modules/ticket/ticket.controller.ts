@@ -1,14 +1,20 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { TicketService } from "./ticket.service";
-import { TicketSchema } from "./ticket.model";
+import { TicketRequestBody } from "./ticket.model";
 import { HttpStatus } from "../../types/http";
+import { randomUUID } from 'node:crypto';
 
 const service = new TicketService();
 
 export const ticketController = new Elysia({ prefix: "/ticket" })
   .post("/", async ({ body, status }) => {
     try {
-      const ticket = await service.create(body);
+      const data = {
+        ...body,
+        price: Number(body.price),
+        qr_code: randomUUID()
+      };
+      const ticket = await service.create(data);
       return status(HttpStatus.CREATED, {
         message: "Ticket created successfully",
         ticket
@@ -17,7 +23,7 @@ export const ticketController = new Elysia({ prefix: "/ticket" })
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }, { body: TicketSchema })
+  }, { body: TicketRequestBody })
 
   .get("/", async ({ status }) => {
     try {
@@ -54,8 +60,11 @@ export const ticketController = new Elysia({ prefix: "/ticket" })
           { message: "Ticket not found" }
         );
       }
-
-      const updatedTicket = await service.update(id, body);
+      const data = {
+        ...body,
+        price: body.price ? Number(body.price) : undefined
+      };
+      const updatedTicket = await service.update(id, data);
       return status(HttpStatus.OK, {
         message: "Ticket updated successfully",
         ticket: updatedTicket
@@ -64,7 +73,7 @@ export const ticketController = new Elysia({ prefix: "/ticket" })
       console.error(error);
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }, { body: TicketSchema })
+  }, { body: t.Partial(TicketRequestBody) })
 
   .delete("/:id", async ({ params: { id }, status }) => {
     try {
