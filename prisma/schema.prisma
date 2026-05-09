@@ -46,6 +46,7 @@ model Ticket {
   qr_code    String
   event      Event        @relation(fields: [event_id], references: [id], onDelete: Cascade)
   status     TicketStatus @default(Pending)
+  is_used    Boolean      @default(false)
   created_at DateTime?    @default(now())
   updated_at DateTime?    @updatedAt
 

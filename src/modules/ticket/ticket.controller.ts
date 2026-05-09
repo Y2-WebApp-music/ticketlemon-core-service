@@ -94,3 +94,31 @@ export const ticketController = new Elysia({ prefix: "/ticket" })
       return status(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   })
+
+  .post("/:id/check-in", async ({ params: { id }, status }) => {
+    try {
+      const ticket = await service.getById(id);
+      if (!ticket) {
+        return status(
+          HttpStatus.NOT_FOUND,
+          { message: "Ticket not found" }
+        );
+      }
+
+      if (ticket.status !== "Purchased") {
+        return status(
+          HttpStatus.BAD_REQUEST,
+          { message: "Only purchased tickets can be checked in" }
+        );
+      }
+
+      const updatedTicket = await service.update(id, { is_used: true });
+      return status(HttpStatus.OK, {
+        message: "Ticket checked in successfully",
+        ticket: updatedTicket
+      });
+    } catch (error) {
+      console.error(error);
+      return status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  })

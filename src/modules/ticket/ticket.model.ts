@@ -13,6 +13,7 @@ export const TicketSchema = t.Object({
   price: t.Numeric(),
   qr_code: t.String(),
   status: t.Optional(t.Enum(ticketStatus)),
+  is_used: t.Optional(t.Boolean())
 });
 export type TicketSchema = typeof TicketSchema.static;
 
